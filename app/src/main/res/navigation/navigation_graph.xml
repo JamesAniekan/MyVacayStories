@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/signInRegisterFragment"
-        android:name="com.android.example.myvacaystories.UI.SignInRegisterFragment"
+        android:name="com.android.example.myvacaystories.fragments.SignInRegisterFragment"
         android:label="fragment_sign_in_register"
         tools:layout="@layout/fragment_sign_in_register" />
 </navigation>
