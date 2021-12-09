@@ -20,7 +20,7 @@ class SignInRegisterFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in_register, container, false)
 
@@ -28,21 +28,45 @@ class SignInRegisterFragment : Fragment() {
 
         signInRegisterViewModel = ViewModelProvider(this, SrViewModelFactory(application)).get(SignInRegisterViewModel::class.java)
 
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.tvRegister.setOnClickListener {
+            binding.apply {
+                etName.visibility = View.VISIBLE
+                registerButton.visibility = View.VISIBLE
+                signInButton.visibility = View.GONE
+                tvLogIn.visibility = View.VISIBLE
+            }
+            it.visibility = View.GONE
+        }
+
+        binding.tvLogIn.setOnClickListener {
+            binding.apply {
+                etName.visibility = View.GONE
+                registerButton.visibility = View.GONE
+                signInButton.visibility = View.VISIBLE
+                tvRegister.visibility = View.VISIBLE
+            }
+            it.visibility = View.GONE
+        }
+
         binding.registerButton.setOnClickListener {
+            val name = binding.etName.text.toString()
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
 
-            signInRegisterViewModel.register(email,password)
+            signInRegisterViewModel.register(name,email,password)
 
         }
-        //binding.signInButton.setOnClickListener {
-          //  }
+        binding.signInButton.setOnClickListener {
+            val email = binding.etEmail.text.toString()
+            val password = binding.etPassword.text.toString()
+
+            signInRegisterViewModel.signInUser(email, password)
+           }
     }
 }

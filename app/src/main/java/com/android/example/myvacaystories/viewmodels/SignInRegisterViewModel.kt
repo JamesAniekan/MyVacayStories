@@ -8,8 +8,12 @@ class SignInRegisterViewModel(application: Application): AndroidViewModel(applic
 
 private val appRepo = AppRepository(application)
 
-    fun register(email: String, password: String){
-        appRepo.registerUser(email, password)
+    fun register(name: String, email: String, password: String){
+        appRepo.registerUser(name, email, password)
+    }
+
+    fun signInUser(email: String, password: String){
+        appRepo.signInUser(email, password)
     }
 
 }
