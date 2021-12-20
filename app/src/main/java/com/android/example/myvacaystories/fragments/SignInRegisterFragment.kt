@@ -1,10 +1,12 @@
 package com.android.example.myvacaystories.fragments
 
+import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.android.example.myvacaystories.R
@@ -16,6 +18,7 @@ class SignInRegisterFragment : Fragment() {
 
     private lateinit var binding: FragmentSignInRegisterBinding
     private lateinit var signInRegisterViewModel: SignInRegisterViewModel
+    private lateinit var application: Application
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +27,7 @@ class SignInRegisterFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in_register, container, false)
 
-        val application = requireNotNull(this.activity).application
+         application = requireNotNull(this.activity).application
 
         signInRegisterViewModel = ViewModelProvider(this, SrViewModelFactory(application)).get(SignInRegisterViewModel::class.java)
 
@@ -65,8 +68,25 @@ class SignInRegisterFragment : Fragment() {
         binding.signInButton.setOnClickListener {
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
+            if(email.isNotBlank() && password.isNotBlank()) {
+                signInRegisterViewModel.signInUser(email, password)
+            }
+        }
 
-            signInRegisterViewModel.signInUser(email, password)
-           }
+        signInRegisterViewModel.signedInRegUser.observe(viewLifecycleOwner, {
+            if(it != null){
+                Toast.makeText(application.applicationContext, "User signed in or registered", Toast.LENGTH_LONG)
+                    .show()
+                signInRegisterViewModel.onSignInCompleted()
+            }
+        })
     }
 }
+
+
+
+
+
+
+
+

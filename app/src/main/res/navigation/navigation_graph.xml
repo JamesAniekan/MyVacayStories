@@ -9,5 +9,14 @@
         android:id="@+id/signInRegisterFragment"
         android:name="com.android.example.myvacaystories.fragments.SignInRegisterFragment"
         android:label="fragment_sign_in_register"
-        tools:layout="@layout/fragment_sign_in_register" />
+        tools:layout="@layout/fragment_sign_in_register" >
+        <action
+            android:id="@+id/action_signInRegisterFragment_to_postsFragment"
+            app:destination="@id/postsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postsFragment"
+        android:name="com.android.example.myvacaystories.fragments.PostsFragment"
+        android:label="fragment_posts"
+        tools:layout="@layout/fragment_posts" />
 </navigation>
