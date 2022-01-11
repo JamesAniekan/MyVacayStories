@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.android.example.myvacaystories.R
 import com.android.example.myvacaystories.databinding.FragmentSignInRegisterBinding
 import com.android.example.myvacaystories.viewmodels.SignInRegisterViewModel
@@ -63,8 +64,8 @@ class SignInRegisterFragment : Fragment() {
             val password = binding.etPassword.text.toString()
 
             signInRegisterViewModel.register(name,email,password)
-
         }
+
         binding.signInButton.setOnClickListener {
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
@@ -75,9 +76,14 @@ class SignInRegisterFragment : Fragment() {
 
         signInRegisterViewModel.signedInRegUser.observe(viewLifecycleOwner, {
             if(it != null){
-                Toast.makeText(application.applicationContext, "User signed in or registered", Toast.LENGTH_LONG)
+                /*Toast.makeText(application.applicationContext, "User signed in or registered", Toast.LENGTH_LONG)
                     .show()
-                signInRegisterViewModel.onSignInCompleted()
+                signInRegisterViewModel.onSignInCompleted()*/
+
+                this.findNavController().navigate(
+                    SignInRegisterFragmentDirections.actionSignInRegisterFragmentToPostsFragment()
+                )
+
             }
         })
     }

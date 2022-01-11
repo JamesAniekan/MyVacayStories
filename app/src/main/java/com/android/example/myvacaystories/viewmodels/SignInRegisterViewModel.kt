@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class SignInRegisterViewModel(application: Application): AndroidViewModel(application) {
 
-    private val appRepo = AppRepository(application)
+    private val appRepo = AppRepository()
 
     private val _signedInRegUser = MutableLiveData<AuthResult?>()
     val signedInRegUser: LiveData<AuthResult?>
