@@ -22,4 +22,5 @@ class NewPostViewModel: ViewModel(){
             _networkState.value = appRepo.newPost(description, imageUri)
         }
     }
+
 }
