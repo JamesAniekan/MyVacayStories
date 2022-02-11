@@ -99,6 +99,7 @@ class AppRepository() {
         return withContext(Dispatchers.IO) {
         try {
             val postLists = storyPosts
+                .orderBy("creationTime", Query.Direction.DESCENDING)
                 .get()
                 .await()
                     //Get results and convert StoryPost object instances
@@ -110,12 +111,12 @@ class AppRepository() {
                         it.userName = user.name
                     }
                 }
-            for(post in postLists){
-                Log.i("Posts", "$post")
-            }
+           // for(post in postLists){
+            //    Log.i("Posts", "$post")
+          //  }
             postLists
-
-        } catch (e: Exception) {
+        }
+        catch (e: Exception) {
                 null
            }
         }
