@@ -38,7 +38,7 @@ class PostsFragment : Fragment() {
 
         viewModel.postLists.observe(viewLifecycleOwner, {
             it?.let{
-                adapter.submitList(it)
+                adapter.storyPosts = it
             }
         })
         return binding.root
