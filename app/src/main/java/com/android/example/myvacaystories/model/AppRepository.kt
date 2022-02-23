@@ -97,42 +97,36 @@ class AppRepository() {
 
     suspend fun getPosts(): List<StoryPost>? {
         return withContext(Dispatchers.IO) {
-            try {
-                lateinit var posts: List<StoryPost>
-                val postLists = storyPosts
-                    .orderBy("creationTime", Query.Direction.DESCENDING)
-
-                //Get results and convert StoryPost object instances
-                postLists.addSnapshotListener { snapShot, error ->
-                    if (error != null || snapShot == null) {
-                        Log.i("xxy", "this is my error msg ${error.toString()}")
-                        return@addSnapshotListener
-
+        try {
+            val postLists = storyPosts
+                .orderBy("creationTime", Query.Direction.DESCENDING)
+                .get()
+                .await()
+                    //Get results and convert StoryPost object instances
+                .toObjects(StoryPost::class.java)
+                    //For each post, set it's username property to the derived user's name property
+                .onEach {
+                    val user = getUser(it.userId)
+                    if (user != null) {
+                        it.userName = user.name
                     }
-                    posts = snapShot.toObjects(StoryPost::class.java)
 
                 }
-                    posts.onEach {
-                        val user = getUser(it.userId)
-                        if (user != null) {
-                            it.userName = user.name
-                        }
-                    }
-                for(post in posts){
-                    Log.i("Posts", "$post")
-                }
-                posts
-            } catch (e: Exception) {
+           // for(post in postLists){
+            //    Log.i("Posts", "$post")
+          //  }
+            postLists
+        }
+        catch (e: Exception) {
                 null
-            }
-
+           }
         }
     }
 
     /*
     Get a User.
      */
-   private suspend fun getUser(uid: String): User? {
+    private suspend fun getUser(uid: String): User? {
         return withContext(Dispatchers.IO) {
             try {
                 val user = userObj.document(uid).get().await().toObject(User::class.java)
