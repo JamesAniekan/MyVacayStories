@@ -15,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.android.example.myvacaystories.R
 import com.android.example.myvacaystories.databinding.FragmentNewPostBinding
 import com.android.example.myvacaystories.model.NetworkStatus
@@ -72,7 +73,12 @@ private lateinit var viewModel: NewPostViewModel
 
         viewModel.networkState.observe(viewLifecycleOwner, {
             when(it){
-                NetworkStatus.DONE -> Toast.makeText(requireContext(), "POST SAVED", Toast.LENGTH_LONG).show()
+                NetworkStatus.DONE -> {
+                    Toast.makeText(requireContext(), "POST SAVED", Toast.LENGTH_LONG).show()
+                    this.findNavController().navigate(
+                            NewPostFragmentDirections.actionNewPostFragmentToPostsFragment()
+                    )
+                }
                 NetworkStatus.ERROR -> Toast.makeText(requireContext(), "ERROR", Toast.LENGTH_LONG).show()
                 NetworkStatus.LOADING -> Toast.makeText(requireContext(), "LOADING", Toast.LENGTH_LONG).show()
             }

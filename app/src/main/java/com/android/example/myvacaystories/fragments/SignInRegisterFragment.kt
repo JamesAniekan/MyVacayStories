@@ -74,7 +74,7 @@ class SignInRegisterFragment : Fragment() {
             }
         }
 
-        signInRegisterViewModel.signedInRegUser.observe(viewLifecycleOwner, {
+        signInRegisterViewModel.signedInRegUser.observe( viewLifecycleOwner, {
             if(it != null){
                 /*Toast.makeText(application.applicationContext, "User signed in or registered", Toast.LENGTH_LONG)
                     .show()
